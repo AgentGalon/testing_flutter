@@ -55,7 +55,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    player.setAsset("assets/audio/sepuh.mp3");
+    player.setAsset(
+      "assets/audio/your-phone-linging-(yo-phone-lingin)-funny-asian-ringtones-(128-made-with-Voicemod.mp3",
+    );
 
     // untuk posisi list streamnya
     player.positionStream.listen((p) {
