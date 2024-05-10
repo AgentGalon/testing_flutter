@@ -8,7 +8,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -58,12 +57,25 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     player.setAsset("assets/audio/sepuh.mp3");
 
+    // untuk posisi list streamnya
     player.positionStream.listen((p) {
       setState(() => position = p);
     });
 
+    // untuk teks dari durasi audio
     player.durationStream.listen((d) {
       setState(() => duration = d!);
+    });
+
+    // yang mengulang lagi jika audio selesai
+    player.playerStateStream.listen((state) {
+      if (state.processingState == ProcessingState.completed) {
+        setState(() {
+          position = Duration.zero;
+        });
+        player.pause();
+        player.seek(position);
+      }
     });
   }
 
@@ -75,7 +87,7 @@ class _HomePageState extends State<HomePage> {
         title: const Text("Audio Player"),
       ),
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
